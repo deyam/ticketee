@@ -31,5 +31,6 @@ end
 end
     it "does not authenticate with an incorrect password" do
       expect(user.authenticate("hunter1")).to_not be
-end end
+end 
+end
 end
