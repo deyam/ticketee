@@ -4,6 +4,7 @@ Ticketee::Application.routes.draw do
 #  get "users/create"
 #  get "users/show"
  namespace :admin do
+  root :to => "base#index"
   resources :users
  end
   root "projects#index"
