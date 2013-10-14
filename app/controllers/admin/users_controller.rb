@@ -34,6 +34,17 @@ def update
     render action: "edit"
   end
 end
+
+def destroy
+  if @user == current_user
+    flash[:alert] = "You cannot delete yourself!"
+  else
+    @user.destroy
+    flash[:notice] = "User has been deleted."
+  end
+  redirect_to admin_users_path
+end
+
 private
   def user_params
     params.require(:user).permit(:name,
