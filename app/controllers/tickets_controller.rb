@@ -6,6 +6,7 @@ before_action :require_signin!
 before_action :set_project	
 before_action :set_ticket, only: [:show, :edit, :update, :destroy]
 before_action :authorize_create!, only: [:new, :create ]
+before_action :authorize_update!, only: [:edit, :update ]
 #before_action :require_signin!, except: [:show, :index]
 
 	def new
@@ -60,10 +61,16 @@ private
 	end
   private 
     def authorize_create!
-       if !current_user.admin? && cannot?("create tickets".to_sym, @project)
-    flash[:alert] = "You cannot create tickets on this project."
-    redirect_to @project
+        if !current_user.admin? && cannot?("create tickets".to_sym, @project)
+          flash[:alert] = "You cannot create tickets on this project."
+          redirect_to @project
+        end
+    end
+  private
+  def authorize_update!
+    if !current_user.admin? && cannot?("edit tickets".to_sym, @project)
+      flash[:alert] = "You cannot edit tickets on this project."
+      redirect_to @project
+    end
   end
-end
-
 end
