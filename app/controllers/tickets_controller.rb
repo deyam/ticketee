@@ -7,6 +7,8 @@ before_action :set_project
 before_action :set_ticket, only: [:show, :edit, :update, :destroy]
 before_action :authorize_create!, only: [:new, :create ]
 before_action :authorize_update!, only: [:edit, :update ]
+before_action :authorize_delete!, only: :destroy
+
 #before_action :require_signin!, except: [:show, :index]
 
 	def new
@@ -73,4 +75,14 @@ private
       redirect_to @project
     end
   end
+
+  private
+  def authorize_delete!
+    if !current_user.admin? && cannot?(:"delete tickets", @project)
+  flash[:alert] = "You cannot delete tickets from this project."
+  redirect_to @project
+    end
+  end
+
+
 end
